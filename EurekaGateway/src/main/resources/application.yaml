@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # Route: /clienta/** -> eureka-clienta service
+            - id: my-client
+              uri: lb://my-client        
+              predicates:
+                - Path=/client/**          # Match all paths starting with /clienta/
+              filters:
+                - StripPrefix=1            # Remove /clienta prefix before forwarding
